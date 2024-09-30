@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Список дней рождений</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+
+        .birthday-table {
+            width: 80%;
+            margin: 20px auto;
+            border-collapse: collapse;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            background-color: #fff;
+        }
+
+        .birthday-table th, .birthday-table td {
+            padding: 12px;
+            text-align: left;
+            border: 1px solid #ddd;
+        }
+
+        .birthday-table th {
+            background-color: #4CAF50;
+            color: white;
+            font-weight: bold;
+        }
+
+        .birthday-table tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        .birthday-table tr:hover {
+            background-color: #f1f1f1;
+        }
+
+        h1 {
+            margin-top: 20px;
+            color: #4CAF50;
+            text-align: center;
+        }
+
+        .logout-button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .logout-button:hover {
+            background-color: #45a049;
+        }
+
+        .search-box {
+            display: block;
+            width: 80%;
+            margin: 20px auto;
+            padding: 10px;
+            font-size: 16px;
+        }
+
+        a {
+            color: #4CAF50;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Список дней рождений</h1>
+
+    <!-- Поле для поиска -->
+    <input type="text" id="searchInput" class="search-box" placeholder="Поиск по имени, фамилии или дате рождения...">
+
+    <table class="birthday-table" id="birthdayTable">
+        <thead>
+            <tr>
+                <th>Имя</th>
+                <th>Фамилия</th>
+                <th>Дата рождения</th>
+                <th>Username</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for first_name, last_name, date, username in birthday_list %}
+            <tr>
+                <td>{{ first_name }}</td>
+                <td>{{ last_name }}</td>
+                <td>{{ date }}</td>
+                <td><a href="https://t.me/{{ username }}" target="_blank">t.me/{{ username }}</a></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <script>
+        // Фильтрация таблицы по поисковому запросу
+        document.getElementById('searchInput').addEventListener('keyup', function() {
+            let filter = this.value.toLowerCase();
+            let rows = document.querySelectorAll('#birthdayTable tbody tr');
+
+            rows.forEach(row => {
+                let firstName = row.cells[0].textContent.toLowerCase();
+                let lastName = row.cells[1].textContent.toLowerCase();
+                let birthDate = row.cells[2].textContent.toLowerCase();
+                let userName = row.cells[3].textContent.toLowerCase();
+                if (firstName.includes(filter) || lastName.includes(filter) || birthDate.includes(filter) || userName.includes(filter)) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+        });
+    </script>
+
+</body>
+</html>
